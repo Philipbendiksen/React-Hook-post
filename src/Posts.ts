@@ -1,9 +1,14 @@
-export interface Post { 
-    id: string; 
-    url: string; 
-    title: string; 
-    content: string; 
-}
+import { z } from "zod";
+
+export const PostSchema = z.object({
+
+    id: z.string(), 
+    url: z.string().url( { message:"Du har angett fel URL" }), 
+    title: z.string().min(5, { message:"Du har angett för få tecken" }), 
+    content: z.string().max(30, { message:"Du har angett för många tecken" }),
+})
+export type Post = z.infer<typeof PostSchema>; 
+
 
 export const mockedPosts: Post[] = [
     {
